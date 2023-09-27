@@ -26,6 +26,19 @@ router.post('/addGuest', (req, res) => {
   });
 });
 
+router.post('/status', (req, res) => {
+  const { name, status } = req.body;
+
+  db.run('UPDATE guests SET status = ? WHERE name = ?', 
+    [status, name],
+    (error) => {
+      if(error) {
+        return res.status(500).send('Erro ao atualizar o status do convidado');
+      }
+      res.send('Status do convidado')
+    })
+});
+
 router.put('/editGuest/:id', (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
