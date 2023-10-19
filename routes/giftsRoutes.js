@@ -41,6 +41,20 @@ router.post('/toChose', (req, res) => {
   })
 });
 
+router.post('/unselect', (req, res) => {
+  const { giftId } = req.body;
+
+  db.run('UPDATE gifts SET choseBy = NULL WHERE id = ?', 
+    [giftId],
+    (error) => {
+      if (error) {
+        return res.status(500).send('Erro ao desvincular o presente.');
+      }
+      res.send('Presente desvinculado com sucesso!');
+    }
+  );
+});
+
 router.put('/editGift/:id', (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
@@ -51,7 +65,7 @@ router.put('/editGift/:id', (req, res) => {
     if(error) {
       return res.status(500).send('Erro ao editar o presente.');
     }
-    res.send('Presnete editado com sucesso!');
+    res.send('Presente editado com sucesso!');
   });
 });
 
