@@ -21,5 +21,5 @@ app.use('/guests', guestsRoutes);
 app.use('/gifts', giftsRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta http://localhost:${PORT}`);
+  console.log(`Servidor rodando na porta http://rkadinho.github.io/noivado-api`);
 });
