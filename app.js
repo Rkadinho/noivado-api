@@ -9,7 +9,7 @@ const guestsRoutes = require('./routes/guestsRoutes');
 const giftsRoutes = require('./routes/giftsRoutes');
 
 const corsOptions = {
-  origin: URL_ORIGIN,
+  origin: '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
