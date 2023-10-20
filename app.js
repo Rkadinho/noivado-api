@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 'https://rkadinho.github.io/noivado-api/';
 const cors = require('cors');
 
 const guestsRoutes = require('./routes/guestsRoutes');
