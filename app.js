@@ -3,11 +3,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 
+const URL_ORIGIN = process.env.ORIGIN
+
 const guestsRoutes = require('./routes/guestsRoutes');
 const giftsRoutes = require('./routes/giftsRoutes');
 
 const corsOptions = {
-  origin: env("ORIGIN"),
+  origin: URL_ORIGIN,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
