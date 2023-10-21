@@ -5,15 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "studio": "yarn prisma studio",
+    "generate": "yarn prisma generate",
+    "build": "yarn prisma migrate deploy && yarn prisma generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.4.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "parse": "^4.2.0",
     "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "prisma": "^5.4.2"
   }
 }

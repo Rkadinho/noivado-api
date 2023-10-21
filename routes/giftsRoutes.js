@@ -1,85 +1,123 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db/dbGifts');
+
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
 
 router.get('/gifts', (req, res) => {
-  db.all(
-    'SELECT * FROM gifts', 
-    (error, gifts) => {
-      if(error) {
-        return res.status(500).send('Erro ao buscar presentes');
-      }
-      res.json(gifts);
-    }
-  )
+  try {
+    prisma.gift
+      .findMany()
+      .then(gifts => {
+        return res.send({ gifts })
+      })
+      .catch(e => console.log(e))
+  } catch (error) {
+    return res.status(500).send('Erro ao buscar presentes')
+  }
 });
 
 router.post('/addGift', (req, res) => {
   const { name } = req.body;
 
-  db.run('INSERT INTO gifts (name) VALUES (?)',
-    [name],
-    (error) => {
-      if(error) {
-        return res.status(500).send('Error ao adicionar presente');
-      }
-      res.send('Presente Adicionado com sucesso!');
-    }
-  )
+  try {
+    prisma.gift
+      .create({
+        data: {
+          name
+        }
+      })
+      .then(gift => {
+        return res.status(201).send('Presente Adicionado com sucesso!')
+      })
+  } catch (error) {
+    console.warn(error)
+
+    return res.status(500).send('Error ao adicionar presente')
+  }
 });
 
-router.post('/toChose', (req, res) => {
+router.post('/toChose', async (req, res) => {
   const { guestName, giftId } = req.body;
 
-  db.run('UPDATE gifts SET choseBy = ? WHERE id = ?', 
-  [guestName, giftId],
-  (error) => {
-    if(error) {
-      return res.status(500).send('Erro ao escolher o presente.');
+  try {
+    const gitf = await prisma.gift.update({
+      where: {
+        id: giftId
+      },
+      data: {
+        choseBy: guestName
+      }
+    })
+    if (gitf) {
+      return res.status(200).send('presente escolhido com sucesso!')
     }
-    res.send('presente escolhido com sucesso!')
-  })
+    return res.status(500).send('Não encontrado')
+  } catch (error) {
+    console.warn(error)
+    return res.status(500).send('Erro ao escolher o presente.')
+  }
 });
 
-router.post('/unselect', (req, res) => {
+router.post('/unselect', async (req, res) => {
   const { giftId } = req.body;
 
-  db.run('UPDATE gifts SET choseBy = NULL WHERE id = ?', 
-    [giftId],
-    (error) => {
-      if (error) {
-        return res.status(500).send('Erro ao desvincular o presente.');
+  try {
+    const gitf = await prisma.gift.update({
+      where: {
+        id: giftId
+      },
+      data: {
+        choseBy: 'Livre'
       }
-      res.send('Presente desvinculado com sucesso!');
+    })
+    if (gitf) {
+      return res.status(200).send('Presente desvinculado com sucesso!')
     }
-  );
+    return res.status(500).send('Não encontrado')
+  } catch (error) {
+    console.warn(error)
+    return res.status(500).send('Erro ao desvincular o presente.')
+  }
 });
 
-router.put('/editGift/:id', (req, res) => {
+router.put('/editGift/:id', async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
 
-  db.run('UPDATE gifts SET name = ? WHERE id = ?', 
-  [name, id],
-  (error) => {
-    if(error) {
-      return res.status(500).send('Erro ao editar o presente.');
+  try {
+    const gift = await prisma.gift.update({
+      where: {
+        id
+      },
+      data: {
+        name
+      }
+    })
+    if (gift) {
+      return res.status(200).send('Presente editado com sucesso!')
     }
-    res.send('Presente editado com sucesso!');
-  });
+    return res.status(500).send('Não encontrado')
+  } catch (error) {
+    console.warn(error)
+    return res.status(500).send('Erro ao editar o presente.')
+  }
 });
 
-router.delete('/deleteGift/:id', (req, res) => {
+router.delete('/deleteGift/:id',async (req, res) => {
   const { id } = req.params;
 
-  db.run('DELETE FROM gifts WHERE id = ?',
-  [id],
-  (error) => {
-    if(error) {
-      return res.status(500).send('Erro ao excluir o presente.');
-    }
-    res.send('Presente exlucido com sucesso!');
-  });
+  try {
+    await prisma.gift.delete({
+      where: {
+        id
+      }
+    })
+    return res.status(200).send('Deletado')
+  } catch (error) {
+    console.warn(error)
+    return res.send('Presente exlucido com sucesso!')
+  }
 });
 
 module.exports = router;
