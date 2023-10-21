@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "studio": "yarn prisma studio",
-    "generate": "yarn prisma generate",
-    "build": "yarn prisma migrate deploy && yarn prisma generate"
+    "studio": "npx prisma studio",
+    "generate": "npx prisma generate",
+    "build": "npx prisma migrate deploy && npx prisma generate"
   },
   "keywords": [],
   "author": "",
