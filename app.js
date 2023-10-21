@@ -1,9 +1,10 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+require('dotenv').config();
 
 const URL_PORT = process.env.PORT || 3000
-const URL_ORIGIN = process.env.ORIGIN || '*'
+const URL_ORIGIN = process.env.ORIGIN
 
 const guestsRoutes = require('./routes/guestsRoutes')
 const giftsRoutes = require('./routes/giftsRoutes')
@@ -11,6 +12,7 @@ const giftsRoutes = require('./routes/giftsRoutes')
 const corsOptions = {
   origin: URL_ORIGIN
 }
+
 
 app.use(cors(corsOptions))
 
