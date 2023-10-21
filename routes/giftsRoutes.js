@@ -18,13 +18,14 @@ router.get('/gifts', (req, res) => {
 });
 
 router.post('/addGift', (req, res) => {
-  const { name } = req.body;
+  const { name, choseBy } = req.body;
 
   try {
     prisma.gift
       .create({
         data: {
-          name
+          name,
+          choseBy
         }
       })
       .then(gift => {
@@ -60,18 +61,18 @@ router.post('/toChose', async (req, res) => {
 });
 
 router.post('/unselect', async (req, res) => {
-  const { giftId } = req.body;
+  const { id } = req.body;
 
   try {
-    const gitf = await prisma.gift.update({
-      where: {
-        id: giftId
-      },
+    const gift = await prisma.gift.update({
       data: {
-        choseBy: 'Livre'
-      }
+        choseBy: ''
+      },
+      where: {
+        id
+      },
     })
-    if (gitf) {
+    if (gift) {
       return res.status(200).send('Presente desvinculado com sucesso!')
     }
     return res.status(500).send('Não encontrado')
@@ -104,7 +105,7 @@ router.put('/editGift/:id', async (req, res) => {
   }
 });
 
-router.delete('/deleteGift/:id',async (req, res) => {
+router.delete('/deleteGift/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -113,10 +114,13 @@ router.delete('/deleteGift/:id',async (req, res) => {
         id
       }
     })
-    return res.status(200).send('Deletado')
+    return res.send('Deletado')
   } catch (error) {
     console.warn(error)
-    return res.send('Presente exlucido com sucesso!')
+    return res.status(500).send({
+      code: 500,
+      error
+    })
   }
 });
 

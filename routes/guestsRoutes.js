@@ -42,7 +42,7 @@ router.post('/addGuest', async (req, res) => {
 });
 
 router.post('/status', async (req, res) => {
-  const { name, status } = req.body;
+  const { id, status } = req.body;
 
   try {
     const guest = await prisma.guest.update({
@@ -50,7 +50,7 @@ router.post('/status', async (req, res) => {
         status
       },
       where: {
-        name
+        id
       }
     })
     if (guest) {
@@ -96,7 +96,7 @@ router.delete('/deleteGuest/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    prisma.guest.delete({
+    await prisma.guest.delete({
       where: {
         id
       }

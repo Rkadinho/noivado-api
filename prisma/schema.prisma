@@ -10,7 +10,7 @@ datasource db {
 model Gift {
   id      String @id @unique @default(uuid())
   name    String
-  choseBy String @default("Livre")
+  choseBy String
 
   @@map("gifts")
 }
