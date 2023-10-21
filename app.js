@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const URL_PORT = process.env.PORT || 3000;
-const cors = require('cors');
 
 const URL_ORIGIN = process.env.ORIGIN
 
