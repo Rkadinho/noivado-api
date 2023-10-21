@@ -3,7 +3,7 @@ const app = express()
 const cors = require('cors')
 
 const URL_PORT = process.env.PORT || 3000
-const URL_ORIGIN = process.env.ORIGIN
+const URL_ORIGIN = process.env.ORIGIN || '*'
 
 const guestsRoutes = require('./routes/guestsRoutes')
 const giftsRoutes = require('./routes/giftsRoutes')
