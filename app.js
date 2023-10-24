@@ -13,8 +13,6 @@ const corsOptions = {
   origin: URL_ORIGIN
 }
 
-run().catch(console.dir);
-
 app.use(cors(corsOptions))
 
 app.use(express.json())
