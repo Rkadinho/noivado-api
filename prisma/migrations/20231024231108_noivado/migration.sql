@@ -1,16 +1,20 @@
 -- CreateTable
 CREATE TABLE "gifts" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "choseBy" TEXT NOT NULL DEFAULT 'Livre'
+    "choseBy" TEXT NOT NULL,
+
+    CONSTRAINT "gifts_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "guests" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "code" TEXT NOT NULL,
-    "status" TEXT NOT NULL DEFAULT ''
+    "status" TEXT NOT NULL DEFAULT '',
+
+    CONSTRAINT "guests_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

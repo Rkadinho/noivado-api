@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Gift {
-  id      String @id @unique @default(uuid())
+  id      Int @id @unique @default(autoincrement())
   name    String
   choseBy String
 
@@ -16,7 +16,7 @@ model Gift {
 }
 
 model Guest {
-  id     String @id @unique @default(uuid())
+  id     Int @id @unique @default(autoincrement())
   name   String
   code   String @unique
   status String @default("")
