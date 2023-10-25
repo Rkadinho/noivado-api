@@ -95,12 +95,6 @@ router.put('/editGuest/:id', async (req, res) => {
 router.delete('/deleteGuest/:id', async (req, res) => {
   const { id } = req.params;
 
-  const existingGuest = await prisma.guest.findUnique({ where: { id } });
-
-  if (!existingGuest) {
-    return res.status(404).send('O hóspede que você está tentando excluir não existe.');
-  }
-
   try {
     await prisma.guest.delete({
       where: {
