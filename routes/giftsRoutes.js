@@ -89,7 +89,7 @@ router.put('/editGift/:id', async (req, res) => {
   try {
     const gift = await prisma.gift.update({
       where: {
-        id
+        id: parseInt(id)
       },
       data: {
         name
@@ -111,7 +111,7 @@ router.delete('/deleteGift/:id', async (req, res) => {
   try {
     await prisma.gift.delete({
       where: {
-        id
+        id: parseInt(id)
       }
     })
     return res.send('Deletado')

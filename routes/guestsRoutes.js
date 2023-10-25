@@ -76,7 +76,7 @@ router.put('/editGuest/:id', async (req, res) => {
         status
       },
       where: {
-        id
+        id: parseInt(id)
       }
     })
     if (guest) {
@@ -98,7 +98,7 @@ router.delete('/deleteGuest/:id', async (req, res) => {
   try {
     await prisma.guest.delete({
       where: {
-        id
+        id: parseInt(id)
       }
     })
     return res.send('Deletado')
