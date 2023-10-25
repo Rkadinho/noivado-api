@@ -68,12 +68,12 @@ router.post('/status', async (req, res) => {
 
 router.put('/editGuest/:id', async (req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { status } = req.body;
 
   try {
     const guest = await prisma.guest.update({
       data: {
-        name
+        status
       },
       where: {
         id
